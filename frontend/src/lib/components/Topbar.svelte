@@ -67,25 +67,30 @@
 <svelte:window on:click={onDocClick} on:keydown={onKey} />
 
 <header
-  class="sticky top-0 z-10 flex h-14 items-center gap-3 border-b border-border bg-bg/80 px-4 backdrop-blur md:px-6"
+  class="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-bg/85 px-3 backdrop-blur safe-pt sm:gap-3 md:px-6"
 >
   <div class="md:hidden">
-    <a href="/" class="grid h-8 w-8 place-items-center rounded-lg bg-accent font-bold text-white"
-      >O</a
+    <a
+      href="/"
+      class="grid h-9 w-9 place-items-center rounded-lg bg-accent font-bold text-white"
+      aria-label="Home"
     >
+      O
+    </a>
   </div>
-  <h1 class="text-sm font-semibold tracking-wide text-slate-200">
+  <h1 class="min-w-0 flex-1 truncate text-sm font-semibold tracking-wide text-slate-200">
     {titleFor($page.url.pathname)}
   </h1>
-  <div class="ml-auto flex items-center gap-2">
+  <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
     {#if $activeProfile}
       <div class="relative" bind:this={menuRoot}>
         <button
-          class="flex items-center gap-2 rounded-lg border border-border bg-bg-subtle px-2 py-1.5 text-xs text-slate-200 hover:border-accent/40"
+          class="flex min-h-[40px] items-center gap-2 rounded-lg border border-border bg-bg-subtle px-2 py-1.5 text-xs text-slate-200 hover:border-accent/40 active:bg-bg-elevated"
           type="button"
           onclick={() => (menuOpen = !menuOpen)}
           aria-haspopup="menu"
           aria-expanded={menuOpen}
+          aria-label="Switch profile"
         >
           <span
             class="grid h-6 w-6 place-items-center rounded-md bg-accent/20 text-[11px] font-bold text-accent-soft"
@@ -97,7 +102,7 @@
         </button>
         {#if menuOpen}
           <div
-            class="absolute right-0 mt-2 w-56 overflow-hidden rounded-lg border border-border bg-bg-elevated shadow-card"
+            class="absolute right-0 mt-2 w-[min(16rem,calc(100vw-1.5rem))] overflow-hidden rounded-lg border border-border bg-bg-elevated shadow-card"
             role="menu"
           >
             <div class="px-3 py-2 text-[11px] uppercase tracking-wide text-slate-500">

@@ -113,13 +113,21 @@
     ondragleave={() => (drag = false)}
     ondrop={onDrop}
   >
-    <div class="flex items-center justify-between gap-3 p-4">
+    <div class="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4">
       <div class="flex items-center gap-3 text-sm text-slate-400">
         <Icon name="upload" />
-        <span>{drag ? 'Drop to upload' : uploading ? 'Uploading…' : 'Drag files here or use Upload'}</span>
+        <span class="truncate">{drag ? 'Drop to upload' : uploading ? 'Uploading…' : 'Drag files here or tap Upload'}</span>
       </div>
-      <div class="relative w-64 max-w-full">
-        <input class="input pl-8" placeholder="Search files…" bind:value={q} />
+      <div class="relative w-full sm:w-64">
+        <input
+          class="input pl-8"
+          placeholder="Search files…"
+          bind:value={q}
+          type="search"
+          inputmode="search"
+          autocomplete="off"
+          aria-label="Search files"
+        />
         <span class="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-slate-500">
           <Icon name="search" size={14} />
         </span>
@@ -138,7 +146,47 @@
       message={q ? 'Try a different search.' : 'Upload your first file using the button above.'}
     />
   {:else}
-    <div class="card overflow-hidden">
+    <!-- Mobile: stacked cards (easier to tap). -->
+    <ul class="grid gap-2 sm:hidden">
+      {#each files as f (f.id)}
+        <li class="card p-3">
+          <div class="min-w-0">
+            <p class="truncate text-sm font-medium text-slate-100">{f.name}</p>
+            <p class="mt-0.5 text-[11px] text-slate-500">
+              {formatBytes(f.size)} · {formatRelative(f.created_at)}
+            </p>
+            <p class="truncate font-mono text-[11px] text-slate-500">{f.mime}</p>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2">
+            {#if isPreviewable(f)}
+              <button
+                class="btn-ghost flex-1 min-w-[96px]"
+                type="button"
+                onclick={() => (preview = f)}
+              >
+                <Icon name="search" size={14} /><span>Preview</span>
+              </button>
+            {/if}
+            <a
+              class="btn-ghost flex-1 min-w-[96px]"
+              href={api.vault.downloadUrl(f.id)}
+            >
+              <Icon name="download" size={14} /><span>Download</span>
+            </a>
+            <button
+              class="btn-ghost flex-1 min-w-[96px] text-rose-400 hover:text-rose-300"
+              type="button"
+              onclick={() => remove(f)}
+            >
+              <Icon name="trash" size={14} /><span>Delete</span>
+            </button>
+          </div>
+        </li>
+      {/each}
+    </ul>
+
+    <!-- Tablet/desktop: table. -->
+    <div class="card hidden overflow-hidden sm:block">
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead class="bg-bg-subtle/60 text-left text-xs uppercase tracking-wide text-slate-400">
@@ -201,31 +249,40 @@
 {#if preview}
   <Modal onClose={() => (preview = null)} labelledBy="preview-title">
     <div class="card w-full max-w-3xl overflow-hidden">
-      <div class="flex items-center justify-between border-b border-border px-4 py-3">
+      <div class="flex items-center justify-between gap-2 border-b border-border px-3 py-3 sm:px-4">
         <div class="min-w-0">
           <p id="preview-title" class="truncate text-sm font-semibold text-slate-100">
             {preview.name}
           </p>
-          <p class="text-xs text-slate-500">{preview.mime} · {formatBytes(preview.size)}</p>
+          <p class="truncate text-xs text-slate-500">{preview.mime} · {formatBytes(preview.size)}</p>
         </div>
-        <button class="btn-ghost" type="button" onclick={() => (preview = null)}>
-          <Icon name="x" size={14} /><span>Close</span>
+        <button
+          class="btn-ghost shrink-0"
+          type="button"
+          onclick={() => (preview = null)}
+          aria-label="Close preview"
+        >
+          <Icon name="x" size={14} /><span class="hidden sm:inline">Close</span>
         </button>
       </div>
-      <div class="max-h-[70vh] overflow-auto bg-bg-subtle p-3">
+      <div class="max-h-[70dvh] overflow-auto bg-bg-subtle p-2 sm:p-3">
         {#if preview.mime.startsWith('image/')}
-          <img src={api.vault.previewUrl(preview.id)} alt={preview.name} class="mx-auto max-h-[60vh]" />
+          <img
+            src={api.vault.previewUrl(preview.id)}
+            alt={preview.name}
+            class="mx-auto max-h-[60dvh] w-auto max-w-full"
+          />
         {:else if preview.mime === 'application/pdf'}
           <iframe
             src={api.vault.previewUrl(preview.id)}
             title={preview.name}
-            class="h-[65vh] w-full bg-white"
+            class="h-[65dvh] w-full bg-white"
           ></iframe>
         {:else}
           <iframe
             src={api.vault.previewUrl(preview.id)}
             title={preview.name}
-            class="h-[60vh] w-full bg-bg"
+            class="h-[60dvh] w-full bg-bg"
           ></iframe>
         {/if}
       </div>

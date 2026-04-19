@@ -46,20 +46,41 @@
     if (scrollEl) scrollEl.scrollTop = scrollEl.scrollHeight;
   }
 
+  // Temp ids are negative so they can't collide with server ids.
+  let tempIdCounter = -1;
+
   async function send() {
     const content = input.trim();
     if (!content || sending) return;
     sending = true;
     input = '';
     autoSize();
+
+    // Optimistically show the user's message right away.
+    const tempId = tempIdCounter--;
+    const optimistic: ChatMessage = {
+      id: tempId,
+      role: 'user',
+      content,
+      profile_key: $activeProfile?.key ?? null,
+      profile_name: $activeProfile?.name ?? null,
+      created_at: new Date().toISOString()
+    };
+    messages = [...messages, optimistic];
+    await scrollToBottom();
+
     try {
       const r = await api.chat.send(content);
-      messages = [...messages, r.user, r.reply];
+      // Replace the optimistic message with the server version and append reply.
+      messages = [...messages.filter((m) => m.id !== tempId), r.user, r.reply];
       if (status) status.online = r.online;
       await scrollToBottom();
     } catch (e) {
+      // Roll back the optimistic message so the user can retry / edit.
+      messages = messages.filter((m) => m.id !== tempId);
       toast(e instanceof ApiError ? e.message : 'Send failed', 'bad');
       input = content;
+      autoSize();
     } finally {
       sending = false;
       textareaEl?.focus();
@@ -99,7 +120,7 @@
   onMount(load);
 </script>
 
-<div class="flex h-[calc(100dvh-3.5rem)] flex-col gap-3 md:h-[calc(100vh-7rem)]">
+<div class="chat-shell flex flex-col gap-3">
   <header class="flex flex-wrap items-center justify-between gap-2">
     <div>
       <h2 class="text-xl font-semibold text-white">
@@ -249,10 +270,12 @@
       rows="1"
       placeholder={status?.online
         ? `Message ${status.assistant_name}…`
-        : 'Type a note (offline) or set OPENAI_API_KEY for live replies'}
-      class="min-h-[40px] flex-1 resize-none border-0 bg-transparent px-2 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-0"
+        : 'Type a note (offline)'}
+      class="min-h-[40px] flex-1 resize-none border-0 bg-transparent px-2 py-2 text-base leading-snug text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-0 sm:text-sm"
       maxlength="4000"
       aria-label="Message"
+      autocapitalize="sentences"
+      autocomplete="off"
     ></textarea>
     <button
       class="btn-primary"
@@ -266,6 +289,25 @@
 </div>
 
 <style>
+  /* Chat fills the viewport minus chrome. Topbar ~3.5rem, mobile nav ~3.5rem,
+     plus main padding and safe-area insets. */
+  .chat-shell {
+    height: calc(
+      100dvh - 3.5rem - 3.5rem - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1.5rem
+    );
+  }
+  @media (min-width: 640px) {
+    .chat-shell {
+      height: calc(100dvh - 3.5rem - 3.5rem - env(safe-area-inset-bottom) - 2rem);
+    }
+  }
+  @media (min-width: 768px) {
+    .chat-shell {
+      /* Desktop: sidebar visible, no bottom nav. */
+      height: calc(100dvh - 3.5rem - 3rem);
+    }
+  }
+
   .dot {
     display: inline-block;
     width: 6px;

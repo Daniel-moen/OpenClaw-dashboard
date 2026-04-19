@@ -30,17 +30,17 @@
 </script>
 
 <div class="space-y-5">
-  <header class="flex flex-wrap items-end justify-between gap-3">
-    <div>
-      <h2 class="text-xl font-semibold text-white">
+  <header class="space-y-3 sm:flex sm:flex-wrap sm:items-end sm:justify-between sm:gap-3 sm:space-y-0">
+    <div class="min-w-0">
+      <h2 class="truncate text-lg font-semibold text-white sm:text-xl">
         Welcome back{$activeProfile ? `, ${$activeProfile.name}` : ''}
       </h2>
       <p class="text-sm text-slate-400">Today at a glance.</p>
     </div>
-    <div class="flex flex-wrap gap-2">
-      <a href="/chat" class="btn-primary"><Icon name="chat" size={14} /><span>Chat with Mia</span></a>
-      <a href="/calendar" class="btn-ghost"><Icon name="plus" size={14} /><span>New event</span></a>
-      <a href="/vault" class="btn-ghost"><Icon name="upload" size={14} /><span>Upload</span></a>
+    <div class="-mx-1 flex flex-nowrap gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
+      <a href="/chat" class="btn-primary shrink-0"><Icon name="chat" size={14} /><span>Chat with Mia</span></a>
+      <a href="/calendar" class="btn-ghost shrink-0"><Icon name="plus" size={14} /><span>New event</span></a>
+      <a href="/vault" class="btn-ghost shrink-0"><Icon name="upload" size={14} /><span>Upload</span></a>
     </div>
   </header>
 

@@ -132,21 +132,27 @@
   {#if error}<ErrorState message={error} onRetry={load} />{/if}
 
   <div class="grid gap-4 lg:grid-cols-3">
-    <div class="card p-4 lg:col-span-2">
-      <div class="mb-3 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <button class="btn-ghost" type="button" onclick={() => shiftMonth(-1)} aria-label="Prev"
-            >‹</button
-          >
-          <h3 class="text-sm font-semibold text-slate-200">
+    <div class="card p-3 sm:p-4 lg:col-span-2">
+      <div class="mb-3 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-1 sm:gap-2">
+          <button
+            class="grid h-10 w-10 place-items-center rounded-lg border border-border bg-bg-subtle text-lg leading-none text-slate-200 hover:bg-bg-elevated active:bg-bg-elevated"
+            type="button"
+            onclick={() => shiftMonth(-1)}
+            aria-label="Previous month"
+          >‹</button>
+          <h3 class="min-w-0 text-sm font-semibold text-slate-200">
             {cursor.toLocaleString(undefined, { month: 'long', year: 'numeric' })}
           </h3>
-          <button class="btn-ghost" type="button" onclick={() => shiftMonth(1)} aria-label="Next"
-            >›</button
-          >
+          <button
+            class="grid h-10 w-10 place-items-center rounded-lg border border-border bg-bg-subtle text-lg leading-none text-slate-200 hover:bg-bg-elevated active:bg-bg-elevated"
+            type="button"
+            onclick={() => shiftMonth(1)}
+            aria-label="Next month"
+          >›</button>
         </div>
         <button
-          class="text-xs text-slate-400 hover:text-white"
+          class="shrink-0 rounded-lg border border-border bg-bg-subtle px-3 py-2 text-xs text-slate-300 hover:text-white active:bg-bg-elevated"
           type="button"
           onclick={() => {
             cursor = startOfMonth(new Date());
@@ -155,12 +161,17 @@
         >
       </div>
 
-      <div class="grid grid-cols-7 gap-1 text-center text-[10px] uppercase tracking-wide text-slate-500">
-        {#each ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as d (d)}
-          <div class="py-1">{d}</div>
+      <div class="grid grid-cols-7 gap-0.5 text-center text-[10px] uppercase tracking-wide text-slate-500 sm:gap-1">
+        {#each ['S', 'M', 'T', 'W', 'T', 'F', 'S'] as d, i (i)}
+          <div class="py-1">
+            <span class="sm:hidden">{d}</span>
+            <span class="hidden sm:inline"
+              >{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i]}</span
+            >
+          </div>
         {/each}
       </div>
-      <div class="grid grid-cols-7 gap-1">
+      <div class="grid grid-cols-7 gap-0.5 sm:gap-1">
         {#each monthDays as d, i (i)}
           {@const key = isoDate(d)}
           {@const inMonth = d.getMonth() === cursor.getMonth()}
@@ -169,10 +180,10 @@
           {@const dayEvents = byDay.get(key) ?? []}
           <button
             type="button"
-            class="flex aspect-square min-h-[60px] flex-col items-stretch rounded-md border p-1 text-left text-xs transition-colors"
+            class="flex aspect-square min-h-[44px] flex-col items-stretch rounded-md border p-0.5 text-left text-xs transition-colors sm:min-h-[60px] sm:p-1"
             class:border-border={!isSel && !isToday}
             class:bg-bg-subtle={inMonth && !isSel}
-            class:opacity-50={!inMonth}
+            class:opacity-40={!inMonth}
             class:border-accent={isSel}
             class:bg-accent-muted={isSel}
             class:ring-1={isToday && !isSel}
@@ -180,10 +191,11 @@
             onclick={() => (selected = isSel ? null : key)}
             ondblclick={() => openNew(key)}
             aria-pressed={isSel}
+            aria-label={`${d.toDateString()}${dayEvents.length ? ` · ${dayEvents.length} event${dayEvents.length > 1 ? 's' : ''}` : ''}`}
             aria-current={isToday ? 'date' : undefined}
           >
             <span
-              class="inline-flex items-center gap-1 font-medium"
+              class="inline-flex items-center gap-1 text-[11px] font-medium sm:text-xs"
               class:text-white={isToday || isSel}
               class:text-slate-300={!(isToday || isSel)}
             >
@@ -193,14 +205,22 @@
               {/if}
             </span>
             <div class="mt-auto space-y-0.5 overflow-hidden">
-              {#each dayEvents.slice(0, 2) as ev (ev.id)}
-                <div class="truncate rounded bg-accent/20 px-1 text-[10px] text-accent-soft">
-                  {ev.title}
-                </div>
-              {/each}
-              {#if dayEvents.length > 2}
-                <div class="text-[10px] text-slate-500">+{dayEvents.length - 2} more</div>
-              {/if}
+              <!-- On mobile, only show a dot count to avoid cramped text. -->
+              <div class="flex flex-wrap gap-0.5 sm:hidden">
+                {#each dayEvents.slice(0, 3) as ev (ev.id)}
+                  <span class="h-1 w-1 rounded-full bg-accent-soft" aria-hidden="true"></span>
+                {/each}
+              </div>
+              <div class="hidden sm:block space-y-0.5">
+                {#each dayEvents.slice(0, 2) as ev (ev.id)}
+                  <div class="truncate rounded bg-accent/20 px-1 text-[10px] text-accent-soft">
+                    {ev.title}
+                  </div>
+                {/each}
+                {#if dayEvents.length > 2}
+                  <div class="text-[10px] text-slate-500">+{dayEvents.length - 2} more</div>
+                {/if}
+              </div>
             </div>
           </button>
         {/each}
@@ -255,7 +275,7 @@
 
 {#if modalOpen}
   <Modal onClose={() => (modalOpen = false)} labelledBy="newevent-title">
-    <form class="card w-full max-w-md p-5" onsubmit={submit}>
+    <form class="card w-full max-w-md p-4 sm:p-5" onsubmit={submit}>
       <h3 id="newevent-title" class="mb-4 text-base font-semibold text-white">New event</h3>
       <div class="space-y-3">
         <label class="block">
@@ -281,9 +301,13 @@
           <textarea class="input" rows="3" bind:value={form.notes} maxlength="2000"></textarea>
         </label>
       </div>
-      <div class="mt-4 flex justify-end gap-2">
-        <button class="btn-ghost" type="button" onclick={() => (modalOpen = false)}>Cancel</button>
-        <button class="btn-primary" type="submit" disabled={busy}>
+      <div class="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+        <button
+          class="btn-ghost w-full sm:w-auto"
+          type="button"
+          onclick={() => (modalOpen = false)}>Cancel</button
+        >
+        <button class="btn-primary w-full sm:w-auto" type="submit" disabled={busy}>
           {busy ? 'Saving…' : 'Add event'}
         </button>
       </div>

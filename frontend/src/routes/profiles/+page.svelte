@@ -117,7 +117,7 @@
 
 {#if modalOpen && editing}
   <Modal onClose={() => (modalOpen = false)} labelledBy="edit-profile-title">
-    <form class="card w-full max-w-md p-5" onsubmit={submit}>
+    <form class="card w-full max-w-md p-4 sm:p-5" onsubmit={submit}>
       <h3 id="edit-profile-title" class="mb-4 text-base font-semibold text-white">
         Edit profile
       </h3>
@@ -140,9 +140,13 @@
           <input class="input" bind:value={form.emoji} maxlength="4" required />
         </label>
       </div>
-      <div class="mt-4 flex justify-end gap-2">
-        <button class="btn-ghost" type="button" onclick={() => (modalOpen = false)}>Cancel</button>
-        <button class="btn-primary" type="submit" disabled={busy}>
+      <div class="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+        <button
+          class="btn-ghost w-full sm:w-auto"
+          type="button"
+          onclick={() => (modalOpen = false)}>Cancel</button
+        >
+        <button class="btn-primary w-full sm:w-auto" type="submit" disabled={busy}>
           {busy ? 'Saving…' : 'Save'}
         </button>
       </div>

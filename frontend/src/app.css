@@ -7,13 +7,32 @@
   body {
     @apply h-full;
   }
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
   body {
     background: radial-gradient(1200px 600px at 10% -10%, rgba(124, 92, 255, 0.08), transparent 60%),
       radial-gradient(900px 400px at 110% 0%, rgba(56, 189, 248, 0.05), transparent 60%),
       #0b0d12;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
   }
   ::selection {
     background: rgba(124, 92, 255, 0.35);
+  }
+  /* Prevent iOS Safari auto-zoom when focusing inputs (requires >=16px font). */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  @media (min-width: 640px) {
+    input,
+    select,
+    textarea {
+      font-size: 14px;
+    }
   }
 }
 
@@ -25,13 +44,14 @@
     @apply transition-colors hover:border-border-strong;
   }
   .btn {
-    @apply inline-flex select-none items-center justify-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-lg border border-transparent px-3 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+    min-height: 40px;
   }
   .btn-primary {
-    @apply btn bg-accent text-white hover:bg-accent-soft;
+    @apply btn bg-accent text-white hover:bg-accent-soft active:bg-accent-soft;
   }
   .btn-ghost {
-    @apply btn border-border bg-bg-subtle text-slate-200 hover:bg-bg-elevated;
+    @apply btn border-border bg-bg-subtle text-slate-200 hover:bg-bg-elevated active:bg-bg-elevated;
   }
   .input {
     @apply w-full rounded-lg border border-border bg-bg-subtle px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
@@ -53,5 +73,33 @@
   }
   .link {
     @apply text-accent-soft hover:text-accent;
+  }
+}
+
+@layer utilities {
+  .safe-pt {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-pb {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-pl {
+    padding-left: env(safe-area-inset-left);
+  }
+  .safe-pr {
+    padding-right: env(safe-area-inset-right);
+  }
+  .safe-px {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  /* Dynamic viewport height helpers (fallback to vh on older browsers). */
+  .h-dvh {
+    height: 100vh;
+    height: 100dvh;
+  }
+  .min-h-dvh {
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 }

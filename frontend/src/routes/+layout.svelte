@@ -52,13 +52,13 @@
 {#if chromeless}
   <slot />
 {:else if checking || $authStatus === 'unknown'}
-  <div class="grid h-full place-items-center text-sm text-slate-500">Loading…</div>
+  <div class="grid h-full place-items-center px-4 text-sm text-slate-500">Loading…</div>
 {:else if $authStatus === 'in'}
   <div class="flex h-full">
     <Sidebar />
     <div class="flex min-w-0 flex-1 flex-col">
       <Topbar />
-      <main class="flex-1 overflow-y-auto p-4 md:p-6">
+      <main class="min-w-0 flex-1 overflow-x-hidden overflow-y-auto p-3 sm:p-4 md:p-6">
         <div class="mx-auto w-full max-w-7xl">
           <slot />
         </div>
@@ -67,7 +67,7 @@
     </div>
   </div>
 {:else}
-  <div class="grid h-full place-items-center text-sm text-slate-500">Redirecting…</div>
+  <div class="grid h-full place-items-center px-4 text-sm text-slate-500">Redirecting…</div>
 {/if}
 
 <Toaster />

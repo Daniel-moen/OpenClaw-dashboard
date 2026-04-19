@@ -24,7 +24,7 @@
 <svelte:window on:keydown={onKey} />
 
 <div
-  class="fixed inset-0 z-30 grid place-items-center bg-black/65 px-4"
+  class="fixed inset-0 z-30 flex items-end justify-center overflow-y-auto bg-black/65 px-3 py-4 sm:items-center sm:p-4"
   role="dialog"
   aria-modal="true"
   aria-labelledby={labelledBy}
@@ -33,6 +33,7 @@
   onkeydown={(e) => {
     if (e.key === 'Escape') onClose();
   }}
+  style="padding-top: max(1rem, env(safe-area-inset-top)); padding-bottom: max(1rem, env(safe-area-inset-bottom));"
 >
   <slot />
 </div>
