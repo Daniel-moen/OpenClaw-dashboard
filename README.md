@@ -46,6 +46,15 @@ from the topbar.
 > The app is single-password; profiles let Mia tailor her replies and tag
 > activity by user. Anyone with the password can switch profiles.
 
+### Chat with Mia
+
+The `Chat` page is a persistent thread shared by all profiles, with each
+message attributed to whoever was active. To enable real LLM replies set
+`OPENAI_API_KEY` in `.env` (any OpenAI-compatible endpoint works -- OpenAI,
+OpenRouter, Together, a local Ollama at `http://localhost:11434/v1`, etc.)
+and restart the backend. Without a key the UI stays fully usable; messages
+are still saved and Mia returns a friendly offline notice.
+
 ## Project layout
 
 ```

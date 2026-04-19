@@ -5,6 +5,9 @@ import type {
   BusinessStats,
   BusinessSummary,
   CalendarEvent,
+  ChatMessage,
+  ChatSendResponse,
+  ChatStatus,
   DashboardSummary,
   Me,
   Profile,
@@ -142,6 +145,19 @@ export const api = {
         { method: 'PUT', body: JSON.stringify(body) },
         f
       )
+  },
+
+  chat: {
+    status: (f?: typeof fetch) => request<ChatStatus>('/api/chat/status', {}, f),
+    list: (f?: typeof fetch) => request<ChatMessage[]>('/api/chat/messages', {}, f),
+    send: (content: string, f?: typeof fetch) =>
+      request<ChatSendResponse>(
+        '/api/chat/messages',
+        { method: 'POST', body: JSON.stringify({ content }) },
+        f
+      ),
+    clear: (f?: typeof fetch) =>
+      request<void>('/api/chat/messages', { method: 'DELETE' }, f)
   },
 
   assistant: {

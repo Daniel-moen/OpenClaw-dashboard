@@ -14,6 +14,7 @@ from .routers import (
     auth,
     businesses,
     calendar,
+    chat,
     dashboard,
     profiles,
     skills,
@@ -53,6 +54,7 @@ def create_app() -> FastAPI:
     app.include_router(assistant.router, prefix=api_prefix)
     app.include_router(profiles.router, prefix=api_prefix)
     app.include_router(profiles.me_router, prefix=api_prefix)
+    app.include_router(chat.router, prefix=api_prefix)
 
     @app.get("/api/health")
     def health() -> dict[str, str]:

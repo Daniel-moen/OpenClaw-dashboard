@@ -81,6 +81,29 @@ export interface Me {
   profile: Profile | null;
 }
 
+export type ChatRole = 'user' | 'assistant' | 'system';
+
+export interface ChatMessage {
+  id: number;
+  role: ChatRole;
+  content: string;
+  profile_key?: string | null;
+  profile_name?: string | null;
+  created_at: string;
+}
+
+export interface ChatStatus {
+  online: boolean;
+  model: string | null;
+  assistant_name: string;
+}
+
+export interface ChatSendResponse {
+  user: ChatMessage;
+  reply: ChatMessage;
+  online: boolean;
+}
+
 export interface AssistantAction {
   id: number;
   slug: string;

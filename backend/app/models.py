@@ -66,6 +66,32 @@ class AssistantAction(AssistantActionIn):
     created_at: datetime
 
 
+# --- chat ---
+class ChatMessage(BaseModel):
+    id: int
+    role: str
+    content: str
+    profile_key: str | None = None
+    profile_name: str | None = None
+    created_at: datetime
+
+
+class ChatSendRequest(BaseModel):
+    content: str = Field(min_length=1, max_length=4000)
+
+
+class ChatSendResponse(BaseModel):
+    user: ChatMessage
+    reply: ChatMessage
+    online: bool
+
+
+class ChatStatus(BaseModel):
+    online: bool
+    model: str | None = None
+    assistant_name: str
+
+
 # --- profiles ---
 class ProfileIn(BaseModel):
     name: str = Field(min_length=1, max_length=60)

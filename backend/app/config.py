@@ -32,6 +32,14 @@ class Settings(BaseSettings):
     jobcarver_stats_url: str | None = None
     jobcarver_stats_token: str | None = None
 
+    # Optional LLM provider for the chat. OpenAI-compatible endpoint -- works
+    # with OpenAI, OpenRouter, Together, local Ollama (with /v1), etc.
+    # Leave empty to disable; chat will use a friendly offline reply.
+    openai_api_key: str | None = None
+    openai_base_url: str = "https://api.openai.com/v1"
+    openai_model: str = "gpt-4o-mini"
+    assistant_name: str = "Mia"
+
     @property
     def data_path(self) -> Path:
         p = Path(self.data_dir)

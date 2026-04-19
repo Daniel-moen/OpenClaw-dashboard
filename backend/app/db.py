@@ -46,6 +46,16 @@ SCHEMA = [
     """,
     "CREATE INDEX IF NOT EXISTS idx_activity_created_at ON activity(created_at DESC)",
     """
+    CREATE TABLE IF NOT EXISTS chat_messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      role TEXT NOT NULL CHECK (role IN ('user', 'assistant', 'system')),
+      content TEXT NOT NULL,
+      profile_key TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )
+    """,
+    "CREATE INDEX IF NOT EXISTS idx_chat_created_at ON chat_messages(created_at)",
+    """
     CREATE TABLE IF NOT EXISTS profiles (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       key TEXT NOT NULL UNIQUE,

@@ -4,10 +4,10 @@
 
   const links = [
     { href: '/', label: 'Home', icon: 'grid' },
-    { href: '/businesses/jobcarver', label: 'JobCarver', icon: 'chart' },
+    { href: '/chat', label: 'Mia', icon: 'chat' },
     { href: '/calendar', label: 'Calendar', icon: 'calendar' },
     { href: '/vault', label: 'Vault', icon: 'folder' },
-    { href: '/assistant', label: 'AI', icon: 'bolt' }
+    { href: '/businesses/jobcarver', label: 'Stats', icon: 'chart' }
   ];
 
   function active(href: string, current: string): boolean {
