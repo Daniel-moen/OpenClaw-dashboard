@@ -8,25 +8,34 @@ export default {
     extend: {
       colors: {
         bg: {
-          DEFAULT: '#0b0d12',
-          subtle: '#11141b',
-          elevated: '#161a23'
+          DEFAULT: '#0a0a0b',
+          subtle: '#101013',
+          elevated: '#16161a'
         },
         border: {
-          DEFAULT: '#222732',
-          strong: '#2d3340'
+          DEFAULT: '#1f1f24',
+          strong: '#2a2a31'
         },
         accent: {
-          DEFAULT: '#7c5cff',
-          soft: '#a18fff',
-          muted: '#3b3270'
+          DEFAULT: '#c9a35b',
+          soft: '#e3c389',
+          muted: '#3a2f1c'
         },
-        ok: '#34d399',
-        warn: '#f59e0b',
-        bad: '#f87171'
+        ok: '#7fb98b',
+        warn: '#d6a85a',
+        bad: '#d68a8a'
       },
       fontFamily: {
+        display: [
+          'Fraunces',
+          'ui-serif',
+          'Georgia',
+          'Cambria',
+          'Times New Roman',
+          'serif'
+        ],
         sans: [
+          'Inter Tight',
           'Inter',
           'ui-sans-serif',
           'system-ui',
@@ -37,7 +46,8 @@ export default {
         mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace']
       },
       boxShadow: {
-        card: '0 1px 0 rgba(255,255,255,0.03), 0 8px 24px -12px rgba(0,0,0,0.6)'
+        card: '0 1px 0 rgba(255,255,255,0.02), 0 12px 32px -20px rgba(0,0,0,0.7)',
+        chrome: '0 1px 0 rgba(255,255,255,0.02), 0 1px 24px -8px rgba(0,0,0,0.6)'
       }
     }
   },

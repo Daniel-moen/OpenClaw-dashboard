@@ -12,16 +12,20 @@
     text-size-adjust: 100%;
   }
   body {
-    background: radial-gradient(1200px 600px at 10% -10%, rgba(124, 92, 255, 0.08), transparent 60%),
-      radial-gradient(900px 400px at 110% 0%, rgba(56, 189, 248, 0.05), transparent 60%),
-      #0b0d12;
+    background-color: #0a0a0b;
+    background-image:
+      radial-gradient(900px 500px at 8% -10%, rgba(201, 163, 91, 0.06), transparent 60%),
+      radial-gradient(700px 400px at 100% 110%, rgba(201, 163, 91, 0.03), transparent 60%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.035 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-attachment: fixed;
+    font-feature-settings: 'ss01', 'cv11', 'cv02';
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior-y: none;
   }
   ::selection {
-    background: rgba(124, 92, 255, 0.35);
+    background: rgba(201, 163, 91, 0.3);
+    color: #fff;
   }
-  /* Prevent iOS Safari auto-zoom when focusing inputs (requires >=16px font). */
   input,
   select,
   textarea {
@@ -38,41 +42,60 @@
 
 @layer components {
   .card {
-    @apply rounded-xl border border-border bg-bg-elevated/80 shadow-card backdrop-blur;
+    @apply rounded-lg border border-border bg-bg-elevated/70 shadow-card;
   }
   .card-hover {
     @apply transition-colors hover:border-border-strong;
   }
   .btn {
-    @apply inline-flex select-none items-center justify-center gap-2 rounded-lg border border-transparent px-3 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-md border border-transparent px-3 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
     min-height: 40px;
   }
   .btn-primary {
-    @apply btn bg-accent text-white hover:bg-accent-soft active:bg-accent-soft;
+    @apply btn border-accent/40 bg-accent/10 text-accent-soft hover:border-accent hover:bg-accent/15 hover:text-accent-soft active:bg-accent/20;
   }
   .btn-ghost {
-    @apply btn border-border bg-bg-subtle text-slate-200 hover:bg-bg-elevated active:bg-bg-elevated;
+    @apply btn border-border bg-transparent text-zinc-300 hover:border-border-strong hover:bg-bg-elevated/60 hover:text-white active:bg-bg-elevated;
   }
   .input {
-    @apply w-full rounded-lg border border-border bg-bg-subtle px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
+    @apply w-full rounded-md border border-border bg-bg-subtle/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-accent focus:outline-none focus:ring-0;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  }
+  .input:focus {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 0 1px rgba(201, 163, 91, 0.4);
   }
   .badge {
-    @apply inline-flex items-center gap-1 rounded-md border border-border bg-bg-subtle px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-slate-300;
+    @apply inline-flex items-center gap-1 rounded-md border border-border bg-bg-subtle/70 px-2 py-0.5 text-[11px] font-medium text-zinc-300;
   }
   .badge-ok {
-    @apply badge border-emerald-500/30 bg-emerald-500/10 text-emerald-300;
+    @apply badge border-emerald-500/20 bg-emerald-500/5 text-emerald-300/90;
   }
   .badge-warn {
-    @apply badge border-amber-500/30 bg-amber-500/10 text-amber-300;
+    @apply badge border-amber-500/20 bg-amber-500/5 text-amber-200/90;
   }
   .badge-bad {
-    @apply badge border-rose-500/30 bg-rose-500/10 text-rose-300;
+    @apply badge border-rose-500/20 bg-rose-500/5 text-rose-300/90;
   }
   .badge-muted {
-    @apply badge text-slate-400;
+    @apply badge text-zinc-500;
+  }
+  .eyebrow {
+    @apply font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500;
+  }
+  .divider-hair {
+    @apply border-t border-border;
+  }
+  .brand-mark {
+    @apply grid place-items-center rounded-md border border-accent/40 bg-bg-subtle font-display font-semibold text-accent-soft;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
   }
   .link {
     @apply text-accent-soft hover:text-accent;
+  }
+  h1, h2, h3 {
+    font-feature-settings: 'ss01';
   }
 }
 
@@ -93,7 +116,6 @@
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
   }
-  /* Dynamic viewport height helpers (fallback to vh on older browsers). */
   .h-dvh {
     height: 100vh;
     height: 100dvh;

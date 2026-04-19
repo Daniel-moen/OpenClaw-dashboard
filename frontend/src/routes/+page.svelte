@@ -32,10 +32,11 @@
 <div class="space-y-5">
   <header class="space-y-3 sm:flex sm:flex-wrap sm:items-end sm:justify-between sm:gap-3 sm:space-y-0">
     <div class="min-w-0">
-      <h2 class="truncate text-lg font-semibold text-white sm:text-xl">
-        Welcome back{$activeProfile ? `, ${$activeProfile.name}` : ''}
+      <p class="eyebrow">Today</p>
+      <h2 class="mt-1 truncate font-display text-2xl font-semibold tracking-tight text-zinc-50 sm:text-[1.75rem]">
+        Welcome back{$activeProfile ? `, ${$activeProfile.name}` : ''}<span class="text-accent">.</span>
       </h2>
-      <p class="text-sm text-slate-400">Today at a glance.</p>
+      <p class="mt-0.5 text-sm text-zinc-500">A quiet glance at what matters.</p>
     </div>
     <div class="-mx-1 flex flex-nowrap gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
       <a href="/chat" class="btn-primary shrink-0"><Icon name="chat" size={14} /><span>Chat with Mia</span></a>
@@ -67,24 +68,20 @@
           href="/chat"
           class="card card-hover flex items-center gap-4 p-4 transition-colors hover:border-accent/40"
         >
-          <span
-            class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-accent/15 text-lg font-bold text-accent-soft"
-          >
-            M
-          </span>
+          <span class="brand-mark h-12 w-12 shrink-0 text-lg">M</span>
           <div class="min-w-0 flex-1">
-            <p class="text-sm font-semibold text-white">Chat with Mia</p>
-            <p class="truncate text-xs text-slate-400">
+            <p class="font-display text-base font-semibold tracking-tight text-zinc-100">Chat with Mia</p>
+            <p class="truncate text-xs text-zinc-500">
               Ask about JobCarver, your calendar, the vault, or what's on for today.
             </p>
           </div>
-          <span class="shrink-0 text-xs text-slate-500">Open →</span>
+          <span class="shrink-0 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">Open →</span>
         </a>
 
-        <div class="card p-4">
-          <div class="mb-3 flex items-center justify-between">
-            <h3 class="text-sm font-semibold text-slate-200">Brands</h3>
-            <a class="text-xs text-slate-400 hover:text-white" href="/businesses/jobcarver">Stats</a>
+        <div class="card p-5">
+          <div class="mb-4 flex items-center justify-between">
+            <h3 class="font-display text-base font-semibold tracking-tight text-zinc-100">Brands</h3>
+            <a class="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500 transition-colors hover:text-accent-soft" href="/businesses/jobcarver">Stats →</a>
           </div>
           <ul class="grid gap-2 sm:grid-cols-2">
             {#each data.businesses as b (b.slug)}
@@ -110,10 +107,10 @@
       </div>
 
       <aside class="space-y-4">
-        <div class="card p-4">
-          <div class="mb-3 flex items-center justify-between">
-            <h3 class="text-sm font-semibold text-slate-200">Upcoming</h3>
-            <a class="text-xs text-slate-400 hover:text-white" href="/calendar">All</a>
+        <div class="card p-5">
+          <div class="mb-4 flex items-center justify-between">
+            <h3 class="font-display text-base font-semibold tracking-tight text-zinc-100">Upcoming</h3>
+            <a class="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500 transition-colors hover:text-accent-soft" href="/calendar">All →</a>
           </div>
           {#if data.upcoming_events.length === 0}
             <EmptyState
@@ -133,10 +130,10 @@
           {/if}
         </div>
 
-        <div class="card p-4">
-          <div class="mb-3 flex items-center justify-between">
-            <h3 class="text-sm font-semibold text-slate-200">Recent activity</h3>
-            <span class="text-xs text-slate-500">{data.recent_activity.length}</span>
+        <div class="card p-5">
+          <div class="mb-4 flex items-center justify-between">
+            <h3 class="font-display text-base font-semibold tracking-tight text-zinc-100">Recent activity</h3>
+            <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">{data.recent_activity.length}</span>
           </div>
           {#if data.recent_activity.length === 0}
             <EmptyState

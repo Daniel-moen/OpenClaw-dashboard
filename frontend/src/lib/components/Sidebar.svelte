@@ -42,21 +42,22 @@
 </script>
 
 <aside
-  class="hidden h-full w-60 shrink-0 flex-col border-r border-border bg-bg-subtle/60 backdrop-blur md:flex"
+  class="hidden h-full w-64 shrink-0 flex-col border-r border-border bg-bg-subtle/50 backdrop-blur md:flex"
 >
-  <a href="/" class="flex items-center gap-2 px-5 py-5">
-    <span
-      class="grid h-8 w-8 place-items-center rounded-lg bg-accent font-bold text-white shadow-card"
-      >O</span
-    >
-    <span class="text-sm font-semibold tracking-wide text-slate-100">Openclaw</span>
-    <span class="ml-auto text-[10px] uppercase tracking-widest text-slate-500">v0.2</span>
+  <a href="/" class="flex items-center gap-3 px-5 py-5">
+    <span class="brand-mark h-9 w-9 text-base">O</span>
+    <span class="flex flex-col leading-tight">
+      <span class="font-display text-base font-semibold tracking-tight text-zinc-100">Openclaw</span>
+      <span class="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-600">v0.2 · internal</span>
+    </span>
   </a>
 
-  <nav class="flex-1 space-y-4 overflow-y-auto px-3 pb-4">
+  <div class="mx-5 divider-hair"></div>
+
+  <nav class="flex-1 space-y-5 overflow-y-auto px-3 pb-4 pt-4">
     {#each groups as group (group.label)}
       <div>
-        <p class="mb-1 px-3 text-[10px] uppercase tracking-widest text-slate-500">
+        <p class="mb-1.5 px-3 font-display text-[11px] italic tracking-wide text-zinc-500">
           {group.label}
         </p>
         <div class="space-y-0.5">
@@ -64,13 +65,19 @@
             {@const active = isActive(l.href, $page.url.pathname)}
             <a
               href={l.href}
-              class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors"
-              class:bg-accent-muted={active}
+              class="relative flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors"
+              class:bg-bg-elevated={active}
               class:text-white={active}
-              class:text-slate-300={!active}
+              class:text-zinc-400={!active}
               class:hover:bg-bg-elevated={!active}
-              class:hover:text-white={!active}
+              class:hover:text-zinc-100={!active}
             >
+              {#if active}
+                <span
+                  class="absolute left-0 top-1/2 h-5 w-[2px] -translate-y-1/2 rounded-r-full bg-accent"
+                  aria-hidden="true"
+                ></span>
+              {/if}
               <Icon name={l.icon} size={16} />
               <span>{l.label}</span>
             </a>
@@ -80,7 +87,12 @@
     {/each}
   </nav>
 
-  <div class="border-t border-border px-5 py-4 text-[11px] leading-relaxed text-slate-500">
-    Internal command center.
+  <div class="border-t border-border px-5 py-4">
+    <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-600">
+      Command center
+    </p>
+    <p class="mt-1 font-display text-xs italic text-zinc-500">
+      Quietly in control.
+    </p>
   </div>
 </aside>

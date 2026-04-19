@@ -21,6 +21,12 @@
     return path.replace(/^\//, '').split('/')[0]?.replace(/^./, (c) => c.toUpperCase()) ?? '';
   }
 
+  function sectionFor(path: string): string {
+    if (path === '/') return 'Overview';
+    if (path.startsWith('/businesses/')) return 'Brand';
+    return titleFor(path);
+  }
+
   async function logout() {
     busy = true;
     try {
@@ -67,25 +73,24 @@
 <svelte:window on:click={onDocClick} on:keydown={onKey} />
 
 <header
-  class="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b border-border bg-bg/85 px-3 backdrop-blur safe-pt sm:gap-3 md:px-6"
+  class="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-2 border-b border-border bg-bg/80 px-3 backdrop-blur safe-pt sm:gap-3 md:px-6"
 >
   <div class="md:hidden">
-    <a
-      href="/"
-      class="grid h-9 w-9 place-items-center rounded-lg bg-accent font-bold text-white"
-      aria-label="Home"
-    >
-      O
-    </a>
+    <a href="/" class="brand-mark h-9 w-9 text-sm" aria-label="Home">O</a>
   </div>
-  <h1 class="min-w-0 flex-1 truncate text-sm font-semibold tracking-wide text-slate-200">
-    {titleFor($page.url.pathname)}
-  </h1>
+  <div class="min-w-0 flex-1">
+    <p class="hidden font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-600 sm:block">
+      Openclaw / {sectionFor($page.url.pathname)}
+    </p>
+    <h1 class="truncate font-display text-lg font-semibold tracking-tight text-zinc-100">
+      {titleFor($page.url.pathname)}
+    </h1>
+  </div>
   <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
     {#if $activeProfile}
       <div class="relative" bind:this={menuRoot}>
         <button
-          class="flex min-h-[40px] items-center gap-2 rounded-lg border border-border bg-bg-subtle px-2 py-1.5 text-xs text-slate-200 hover:border-accent/40 active:bg-bg-elevated"
+          class="flex min-h-[40px] items-center gap-2 rounded-md border border-border bg-bg-subtle/60 px-2 py-1.5 text-xs text-zinc-200 transition-colors hover:border-border-strong hover:bg-bg-elevated"
           type="button"
           onclick={() => (menuOpen = !menuOpen)}
           aria-haspopup="menu"
@@ -93,43 +98,46 @@
           aria-label="Switch profile"
         >
           <span
-            class="grid h-6 w-6 place-items-center rounded-md bg-accent/20 text-[11px] font-bold text-accent-soft"
+            class="grid h-6 w-6 place-items-center rounded-full border border-border bg-bg text-[10px] font-medium uppercase text-zinc-300"
           >
             {$activeProfile.emoji || $activeProfile.name.charAt(0).toUpperCase()}
           </span>
           <span class="hidden sm:inline">{$activeProfile.name}</span>
+          <span class="hidden h-1.5 w-1.5 rounded-full bg-accent sm:inline-block" aria-hidden="true"></span>
           <Icon name="chevron-down" size={12} />
         </button>
         {#if menuOpen}
           <div
-            class="absolute right-0 mt-2 w-[min(16rem,calc(100vw-1.5rem))] overflow-hidden rounded-lg border border-border bg-bg-elevated shadow-card"
+            class="absolute right-0 mt-2 w-[min(17rem,calc(100vw-1.5rem))] overflow-hidden rounded-md border border-border bg-bg-elevated shadow-card"
             role="menu"
           >
-            <div class="px-3 py-2 text-[11px] uppercase tracking-wide text-slate-500">
+            <div class="px-3 pt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">
               Switch profile
             </div>
-            {#each $allProfiles as p (p.id)}
-              <button
-                class="flex w-full items-center gap-2 px-3 py-2 text-left text-xs hover:bg-bg-subtle"
-                type="button"
-                role="menuitemradio"
-                aria-checked={p.id === $activeProfile.id}
-                onclick={() => switchTo(p)}
-              >
-                <span
-                  class="grid h-6 w-6 place-items-center rounded-md bg-accent/15 text-[11px] font-bold text-accent-soft"
+            <div class="py-1">
+              {#each $allProfiles as p (p.id)}
+                <button
+                  class="flex w-full items-center gap-2 px-3 py-2 text-left text-xs transition-colors hover:bg-bg-subtle"
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={p.id === $activeProfile.id}
+                  onclick={() => switchTo(p)}
                 >
-                  {p.emoji || p.name.charAt(0).toUpperCase()}
-                </span>
-                <span class="flex-1 text-slate-200">{p.name}</span>
-                {#if p.id === $activeProfile.id}
-                  <Icon name="check" size={12} />
-                {/if}
-              </button>
-            {/each}
+                  <span
+                    class="grid h-6 w-6 place-items-center rounded-full border border-border bg-bg text-[10px] font-medium uppercase text-zinc-300"
+                  >
+                    {p.emoji || p.name.charAt(0).toUpperCase()}
+                  </span>
+                  <span class="flex-1 text-zinc-200">{p.name}</span>
+                  {#if p.id === $activeProfile.id}
+                    <span class="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true"></span>
+                  {/if}
+                </button>
+              {/each}
+            </div>
             <a
               href="/profiles"
-              class="block border-t border-border px-3 py-2 text-xs text-slate-300 hover:bg-bg-subtle"
+              class="block border-t border-border px-3 py-2 text-xs text-zinc-300 transition-colors hover:bg-bg-subtle hover:text-white"
               role="menuitem"
               onclick={() => (menuOpen = false)}
             >
