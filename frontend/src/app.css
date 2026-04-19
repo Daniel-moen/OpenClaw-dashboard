@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply h-full;
+  }
+  body {
+    background: radial-gradient(1200px 600px at 10% -10%, rgba(124, 92, 255, 0.08), transparent 60%),
+      radial-gradient(900px 400px at 110% 0%, rgba(56, 189, 248, 0.05), transparent 60%),
+      #0b0d12;
+  }
+  ::selection {
+    background: rgba(124, 92, 255, 0.35);
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-border bg-bg-elevated/80 shadow-card backdrop-blur;
+  }
+  .card-hover {
+    @apply transition-colors hover:border-border-strong;
+  }
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-lg border border-transparent px-3 py-1.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-white hover:bg-accent-soft;
+  }
+  .btn-ghost {
+    @apply btn border-border bg-bg-subtle text-slate-200 hover:bg-bg-elevated;
+  }
+  .input {
+    @apply w-full rounded-lg border border-border bg-bg-subtle px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-md border border-border bg-bg-subtle px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-slate-300;
+  }
+  .badge-ok {
+    @apply badge border-emerald-500/30 bg-emerald-500/10 text-emerald-300;
+  }
+  .badge-warn {
+    @apply badge border-amber-500/30 bg-amber-500/10 text-amber-300;
+  }
+  .badge-bad {
+    @apply badge border-rose-500/30 bg-rose-500/10 text-rose-300;
+  }
+  .badge-muted {
+    @apply badge text-slate-400;
+  }
+  .link {
+    @apply text-accent-soft hover:text-accent;
+  }
+}

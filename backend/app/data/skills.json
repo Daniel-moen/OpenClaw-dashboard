@@ -1,0 +1,66 @@
+[
+  {
+    "id": "jobcarver-stats",
+    "name": "JobCarver stats",
+    "description": "Pull live JobCarver KPIs, charts, and source breakdowns.",
+    "category": "JobCarver",
+    "status": "available",
+    "source": "backend:/api/businesses/jobcarver/stats"
+  },
+  {
+    "id": "jobcarver-summary",
+    "name": "JobCarver daily summary",
+    "description": "One-paragraph daily summary of JobCarver activity.",
+    "category": "JobCarver",
+    "status": "available",
+    "source": "assistant"
+  },
+  {
+    "id": "vault-search",
+    "name": "Vault search",
+    "description": "Search uploaded files by name or metadata.",
+    "category": "Vault",
+    "status": "available",
+    "source": "backend:/api/vault"
+  },
+  {
+    "id": "vault-upload",
+    "name": "Vault upload",
+    "description": "Securely upload files with size + mime validation.",
+    "category": "Vault",
+    "status": "available",
+    "source": "backend:/api/vault"
+  },
+  {
+    "id": "calendar-read",
+    "name": "Calendar read",
+    "description": "List upcoming events for the day, week, or month.",
+    "category": "Calendar",
+    "status": "available",
+    "source": "backend:/api/calendar/events"
+  },
+  {
+    "id": "calendar-write",
+    "name": "Calendar add event",
+    "description": "Create new events with title, time, location, notes.",
+    "category": "Calendar",
+    "status": "available",
+    "source": "backend:/api/calendar/events"
+  },
+  {
+    "id": "assistant-actions",
+    "name": "Assistant quick actions",
+    "description": "Curated prompts you can run from the dashboard.",
+    "category": "Assistant",
+    "status": "available",
+    "source": "backend:/api/assistant/actions"
+  },
+  {
+    "id": "cohesion-stats",
+    "name": "CohesionSupps stats",
+    "description": "Stats integration for the CohesionSupps brand.",
+    "category": "CohesionSupps",
+    "status": "planned",
+    "source": "backend:/api/businesses/cohesionsupps/stats"
+  }
+]
